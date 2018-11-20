@@ -1,0 +1,12 @@
+version: '3'
+
+services: 
+  heketi:
+    image: heketi/heketi:latest
+    ports: 
+      - "8080:8080"
+    volumes:
+      - ./heketi/config/:/etc/heketi/
+      - ./heketi/db/:/var/lib/heketi/
+      - ./heketi/ssh/:/root/.ssh/
+    network_mode: default

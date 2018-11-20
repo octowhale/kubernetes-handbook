@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1beta1
+kind: StorageClass
+metadata:
+  name: aliyun-gluster-slow
+provisioner: kubernetes.io/glusterfs
+parameters:
+  resturl: "http://172.xx.xx.xx:8080"
+  restuser: "admin"
+  restuserkey: "AwcyvNaPBfnGcxXBM"
+  volumetype: "replicate:3"
