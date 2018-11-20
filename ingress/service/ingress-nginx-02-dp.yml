@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress-nginx-02
+spec:
+  selector:
+    matchLabels:
+      app: ingress-nginx-02
+  template:
+    metadata:
+      labels:
+        app: ingress-nginx-02
+    spec:
+      containers:
+        - name: ingress-nginx-02
+          image: uyinn28/alpine-tool
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c 
+                  - echo ${POD_NAME} > /usr/share/nginx/html/index.html
+          # command:
+          #   - sh
+          #   - -c
+          # args:
+          #   - echo ${POD_NAME} > /usr/share/nginx/html/index.html
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name

@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    description: clb-ingress
+    kubernetes.io/ingress.class: qcloud
+    # kubernetes.io/ingress.http-rules: '[{"host":"localhost","path":"/","backend":{"serviceName":"non-service","servicePort":65535}}]'
+    # kubernetes.io/ingress.https-rules: "null"
+    kubernetes.io/ingress.qcloud-loadbalance-id: lb-fwrk6lrb
+    kubernetes.io/ingress.rule-mix: "true"
+    kubernetes.io/ingress.subnetId: subnet-3klzuh77
+  generation: 1
+  name: clb-ingress
+  namespace: nfs
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - backend:
+          serviceName: non-service
+          servicePort: 65535
+        path: /
+  - host: qfoo.chinawayltd.com
+    http:
+      paths:
+        - backend:
+            serviceName: ingress-nginx-01
+            servicePort: 80
+          path: "/"
