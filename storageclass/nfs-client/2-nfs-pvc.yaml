@@ -1,0 +1,14 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-claim-2
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "aliyun-hangzhou-nas-ssd"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Mi
+    limits:
+      storage: 1Mi
