@@ -18,7 +18,7 @@ spec:
       nodeSelector:
         ns: tangxin-test
       containers:
-      - image: uyinn28/alpine-tool
+      - image: nginx:1.15
         name: nginx-01
         volumeMounts:
         - mountPath: /data01
