@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    qcloud-app: dep-nginx-emptydir
+  name: dep-nginx-emptydir
+  namespace: tangxin-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      qcloud-app: dep-nginx-emptydir
+  template:
+    metadata:
+      labels:
+        qcloud-app: dep-nginx-emptydir
+    spec:
+      nodeSelector:
+        ns: tangxin-test
+      containers:
+      - image: uyinn28/alpine-tool
+        name: nginx-01
+        volumeMounts:
+        - mountPath: /data01
+          name: emtpydir-vol
+
+      - image: nginx:1.15
+        name: nginx-02
+        volumeMounts:
+        - mountPath: /data02
+          name: emtpydir-vol
+          
+      volumes:
+      - name: emtpydir-vol
+        emptyDir: {}
+
+### faield
+### emptyDir 共享盘没有问题， 出问题的是网络监听冲突。
+
+# → kgp
+# NAME                                 READY     STATUS             RESTARTS   AGE
+# dep-nginx-emptydir-d56f9b5b5-tcnsn   1/2       CrashLoopBackOff   3          1m
+
+# → k logs dep-nginx-emptydir-d56f9b5b5-tcnsn -c nginx-02
+# 2018/12/15 05:39:15 [emerg] 1#1: bind() to 0.0.0.0:80 failed (98: Address already in use)
+# nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+# 2018/12/15 05:39:15 [emerg] 1#1: bind() to 0.0.0.0:80 failed (98: Address already in use)
+# nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+# 2018/12/15 05:39:15 [emerg] 1#1: bind() to 0.0.0.0:80 failed (98: Address already in use)
+# nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+# 2018/12/15 05:39:15 [emerg] 1#1: bind() to 0.0.0.0:80 failed (98: Address already in use)
+# nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+# 2018/12/15 05:39:15 [emerg] 1#1: bind() to 0.0.0.0:80 failed (98: Address already in use)
+# nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+# 2018/12/15 05:39:15 [emerg] 1#1: still could not bind()
+# nginx: [emerg] still could not bind()
