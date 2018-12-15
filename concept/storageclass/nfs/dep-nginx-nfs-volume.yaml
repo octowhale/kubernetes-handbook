@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: dep-nginx-nfs-volume
+  name: dep-nginx-nfs-volume
+  namespace: tangxin-test
+spec:
+  template:
+    metadata:
+      labels:
+        app: dep-nginx-nfs-volume
+    spec:
+      nodeSelector: 
+        ns: tangxin-test
+        
+      containers:
+      - image: nginx:1.15
+        imagePullPolicy: Always
+        name: nginx
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /mnt/
+          name: nfs-vol
+      volumes:
+      - name: nfs-vol
+        nfs:
+          path: /kubernetes
+          server: 1d1e049b0f-luw60.cn-beijing.nas.aliyuncs.com
