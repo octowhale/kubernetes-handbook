@@ -1,0 +1,44 @@
+# for versions before 1.6.0 use extensions/v1beta1
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: deployment--command
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: command--sh-c
+        image: busybox
+        ports:
+        - containerPort: 80
+        command:
+        - sh
+        - -c
+        - echo Hello ${HOSTNAME}    # Hello deployment--command-6674c784b7-c9x4j
+        resources: {}
+
+      - name: command-args
+        image: busybox
+        ports:
+        - containerPort: 80
+        command:
+        - echo
+        args:
+        - Hello ${HOSTNAME}   # Hello ${HOSTNAME}
+        resources: {}
+
+      - name: command--exec
+        image: busybox
+        ports:
+        - containerPort: 80
+        command:
+        - exec
+        args:
+        - echo Hello ${HOSTNAME}  # container_linux.go:262: starting container process caused "exec: \"exec\": executable file not found in $PATH"
+        resources: {}
+        
+        
