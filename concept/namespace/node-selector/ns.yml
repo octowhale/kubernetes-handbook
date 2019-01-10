@@ -1,0 +1,9 @@
+# https://stackoverflow.com/questions/52487333/how-to-assign-a-namespace-to-certain-nodes
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: namespace-assign-to-node
+ annotations:
+   scheduler.alpha.kubernetes.io/node-selector: env=test
+spec: {}
+status: {}
