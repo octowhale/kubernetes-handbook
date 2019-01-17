@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: apline-tool
+spec:
+  ports:
+    - name: cluster
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: apline-tool
+  type: ClusterIP

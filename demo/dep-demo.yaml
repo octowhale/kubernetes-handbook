@@ -1,0 +1,24 @@
+# for versions before 1.6.0 use extensions/v1beta1
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: apline-tool
+  namespace: namespace-assign-node
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: apline-tool
+    spec:
+      containers:
+      - name: nginx
+        image: uyinn28/alpine-tool
+        imagePullPolicy: Always
+        ports:
+        - name: http-port
+          containerPort: 80
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi

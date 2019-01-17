@@ -1,0 +1,21 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: app-stress
+spec:
+  maxReplicas: 10
+  minReplicas: 10
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: app-stress
+  # targetCPUUtilizationPercentage: 50
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 35
+  - type: Resource
+    resource:
+      name: memory
+      targetAverageUtilization: 40
